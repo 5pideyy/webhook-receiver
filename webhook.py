@@ -1,11 +1,11 @@
 import os
-from flask import Flask, request, jsonify, render_template_string
+from flask import Flask, request, render_template_string
 from datetime import datetime
 
 app = Flask(__name__)
 LOG_FILE = "log.txt"
 
-# HTML frontend
+# HTML frontend for webhook
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html>
@@ -30,6 +30,7 @@ HTML_TEMPLATE = """
     <a href="/">Back to Webhook</a>
     <a href="/latest">View Latest</a>
     <a href="/clear">Clear Log</a>
+    <a href="/logs">View All Logs</a>
 </body>
 </html>
 """
@@ -65,6 +66,18 @@ def latest():
 def clear():
     open(LOG_FILE, "w").close()
     return "Log cleared."
+
+@app.route('/logs')
+def view_logs():
+    if not os.path.exists(LOG_FILE):
+        return "No logs yet!"
+    
+    with open(LOG_FILE, "r") as f:
+        logs = f.readlines()
+
+    # Serve logs in a simple readable format
+    logs_content = ''.join(logs)
+    return f"<pre>{logs_content if logs_content else 'No data yet.'}</pre>"
 
 # Use the PORT environment variable that Railway sets
 if __name__ == '__main__':
