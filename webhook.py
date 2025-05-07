@@ -1,6 +1,6 @@
+import os
 from flask import Flask, request, jsonify, render_template_string
 from datetime import datetime
-import os
 
 app = Flask(__name__)
 LOG_FILE = "log.txt"
@@ -66,5 +66,7 @@ def clear():
     open(LOG_FILE, "w").close()
     return "Log cleared."
 
+# Use the PORT environment variable that Railway sets
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    port = int(os.environ.get("PORT", 8000))  # Railway sets PORT
+    app.run(host='0.0.0.0', port=port)
