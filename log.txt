@@ -1,0 +1,10 @@
+{
+  "timestamp": "2025-05-07T14:44:14.030464",
+  "method": "GET",
+  "headers": {
+    "Host": "0.0.0.0:8000",
+    "User-Agent": "curl/8.13.0",
+    "Accept": "*/*"
+  },
+  "data": {}
+}
